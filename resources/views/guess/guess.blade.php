@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BEM 2024 - Badan Eksekutif Mahasiswa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/guess.css">
+    <link rel="stylesheet" href="css/calendar.css">
 </head>
 <body>
 
@@ -38,6 +42,7 @@
                     <li><a href="#organisasi">Organisasi</a></li>
                     <li><a href="#artikel">Artikel</a></li>
                     <li><a href="#galeri">Galeri</a></li>
+                    <li><a href="#kalender">Kalender</a></li>
                 </ul>
                 <a href="#gabung" class="cta-button">Gabung BEM</a>
             </nav>
@@ -128,7 +133,8 @@
             </div>
         </div>
     </section>
-<section id="organisasi" class="organisasi-section animate-on-scroll">
+
+    <section id="organisasi" class="organisasi-section animate-on-scroll">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">Organisasi Mahasiswa</div>
@@ -216,7 +222,6 @@
         </div>
     </section>
 
-
     <section id="pencapaian" class="pencapaian-section animate-on-scroll">
         <div class="container">
             <div class="section-header">
@@ -273,10 +278,342 @@
         </div>
     </section>
 
-    <div class="scroll-indicator"></div>
+    <section id="kalender" class="kalender-section animate-on-scroll">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">📅 Kalender Kegiatan</div>
+                <h2 class="section-title">Kalender Kegiatan BEM 2024</h2>
+                <p class="section-subtitle">Jadwal kegiatan dan program kerja yang akan datang</p>
+            </div>
+            
+            <div class="category-filters">
+                <h4 class="filter-title">Filter Kategori:</h4>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">Semua</button>
+                    <button class="filter-btn" data-category="bem">BEM</button>
+                    <button class="filter-btn" data-category="kemahasiswaan">Kemahasiswaan</button>
+                    <button class="filter-btn" data-category="himpunan">Himpunan</button>
+                    <button class="filter-btn" data-category="ukm">UKM</button>
+                    <button class="filter-btn" data-category="akademik">Akademik</button>
+                </div>
+                <div class="category-legend">
+                    <div class="legend-item">
+                        <div class="legend-color bem"></div>
+                        <span>BEM</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color kemahasiswaan"></div>
+                        <span>Kemahasiswaan</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color himpunan"></div>
+                        <span>Himpunan</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color ukm"></div>
+                        <span>UKM</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color akademik"></div>
+                        <span>Akademik</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendar-layout">
+                <div class="upcoming-events">
+                    <h3 class="events-title">Kegiatan Mendatang</h3>
+                    <div class="events-list">
+                        <!-- Events will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="calendar-nav-btn" id="prevMonth">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 class="calendar-month-year" id="monthYear"></h3>
+                        <button class="calendar-nav-btn" id="nextMonth">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="calendar-weekdays">
+                            <div class="weekday">Min</div>
+                            <div class="weekday">Sen</div>
+                            <div class="weekday">Sel</div>
+                            <div class="weekday">Rab</div>
+                            <div class="weekday">Kam</div>
+                            <div class="weekday">Jum</div>
+                            <div class="weekday">Sab</div>
+                        </div>
+                        <div class="calendar-days" id="calendarDays"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Added JavaScript for scroll-triggered animations -->
-   <script src="js/guess.js"></script>
+    <script src="js/guess.js"></script>
+    <!-- Added Calendar JavaScript -->
+    <script>
+        // Calendar functionality
+        const monthNames = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let activeCategory = 'all'; // Added active category filter
+
+        const events = {
+            '2025-01-15': {
+                title: 'Seminar Kewirausahaan',
+                description: 'Workshop pengembangan jiwa entrepreneur untuk mahasiswa',
+                time: '09:00 - 12:00',
+                location: 'Aula Utama',
+                category: 'bem',
+                organizer: 'BEM UI'
+            },
+            '2025-01-22': {
+                title: 'Turnamen E-Sports',
+                description: 'Kompetisi gaming antar fakultas dengan hadiah menarik',
+                time: '13:00 - 18:00',
+                location: 'Lab Komputer',
+                category: 'ukm',
+                organizer: 'UKM IT'
+            },
+            '2025-01-28': {
+                title: 'Bakti Sosial',
+                description: 'Kegiatan pengabdian masyarakat di desa sekitar kampus',
+                time: '07:00 - 15:00',
+                location: 'Desa Suka Maju',
+                category: 'kemahasiswaan',
+                organizer: 'Kemahasiswaan UI'
+            },
+            '2025-02-05': {
+                title: 'Workshop Design Thinking',
+                description: 'Pelatihan metodologi design thinking untuk inovasi',
+                time: '14:00 - 17:00',
+                location: 'Ruang Seminar',
+                category: 'akademik',
+                organizer: 'Fakultas Teknik'
+            },
+            '2025-02-12': {
+                title: 'Pelatihan Leadership',
+                description: 'Pengembangan kemampuan kepemimpinan mahasiswa',
+                time: '10:00 - 16:00',
+                location: 'Gedung Serbaguna',
+                category: 'bem',
+                organizer: 'BEM UI'
+            },
+            '2025-02-18': {
+                title: 'Festival Musik',
+                description: 'Pertunjukan musik dari berbagai UKM',
+                time: '19:00 - 22:00',
+                location: 'Lapangan Utama',
+                category: 'ukm',
+                organizer: 'UKM Band'
+            },
+            '2025-02-25': {
+                title: 'Seminar Karir',
+                description: 'Tips dan strategi membangun karir profesional',
+                time: '13:00 - 17:00',
+                location: 'Auditorium',
+                category: 'kemahasiswaan',
+                organizer: 'Career Center'
+            },
+            '2025-08-05': {
+                title: 'Orientasi Mahasiswa Baru',
+                description: 'Pengenalan kampus dan organisasi untuk mahasiswa baru',
+                time: '08:00 - 17:00',
+                location: 'Seluruh Kampus',
+                category: 'kemahasiswaan',
+                organizer: 'Kemahasiswaan UI'
+            },
+            '2025-08-12': {
+                title: 'Workshop Fotografi',
+                description: 'Pelatihan teknik fotografi untuk dokumentasi kegiatan',
+                time: '14:00 - 18:00',
+                location: 'Studio Fotografi',
+                category: 'ukm',
+                organizer: 'UKM Fotografi'
+            },
+            '2025-08-17': {
+                title: 'Peringatan HUT RI',
+                description: 'Upacara dan lomba memperingati kemerdekaan Indonesia',
+                time: '07:00 - 12:00',
+                location: 'Lapangan Upacara',
+                category: 'kemahasiswaan',
+                organizer: 'Kemahasiswaan UI'
+            },
+            '2025-08-24': {
+                title: 'Seminar Teknologi Blockchain',
+                description: 'Pengenalan teknologi blockchain dan cryptocurrency',
+                time: '09:00 - 15:00',
+                location: 'Ruang Konferensi',
+                category: 'himpunan',
+                organizer: 'Himpunan Informatika'
+            },
+            '2025-08-30': {
+                title: 'Malam Kesenian',
+                description: 'Pertunjukan seni dari mahasiswa berbagai fakultas',
+                time: '19:00 - 22:00',
+                location: 'Gedung Kesenian',
+                category: 'ukm',
+                organizer: 'UKM Seni'
+            }
+        };
+
+        const categoryColors = {
+            'bem': '#3b82f6',        // Blue
+            'kemahasiswaan': '#10b981', // Green
+            'himpunan': '#f59e0b',   // Orange
+            'ukm': '#8b5cf6',        // Purple
+            'akademik': '#ef4444'    // Red
+        };
+
+        function getEventsForMonth(month, year) {
+            const monthEvents = [];
+            const monthStr = String(month + 1).padStart(2, '0');
+            
+            for (const [dateStr, eventData] of Object.entries(events)) {
+                const [eventYear, eventMonth] = dateStr.split('-');
+                if (eventYear == year && eventMonth == monthStr) {
+                    if (activeCategory === 'all' || eventData.category === activeCategory) {
+                        const day = parseInt(dateStr.split('-')[2]);
+                        monthEvents.push({
+                            day: day,
+                            date: dateStr,
+                            ...eventData
+                        });
+                    }
+                }
+            }
+            
+            return monthEvents.sort((a, b) => a.day - b.day);
+        }
+
+        function updateEventsList(month, year) {
+            const monthEvents = getEventsForMonth(month, year);
+            const eventsList = document.querySelector('.events-list');
+            
+            if (monthEvents.length === 0) {
+                const categoryText = activeCategory === 'all' ? '' : ` kategori ${activeCategory}`;
+                eventsList.innerHTML = `
+                    <div class="no-events">
+                        <p>Tidak ada kegiatan${categoryText} pada bulan ${monthNames[month]} ${year}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            eventsList.innerHTML = monthEvents.map(event => `
+                <div class="event-item stagger-animation" data-category="${event.category}">
+                    <div class="event-date">
+                        <div class="event-day">${event.day}</div>
+                        <div class="event-month">${monthNames[month].substring(0, 3)}</div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-header">
+                            <h4 class="event-title">${event.title}</h4>
+                            <div class="event-category" style="background-color: ${categoryColors[event.category]}">${event.category.toUpperCase()}</div>
+                        </div>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-meta">
+                            <span class="event-time"><i class="fas fa-clock"></i> ${event.time}</span>
+                            <span class="event-location"><i class="fas fa-map-marker-alt"></i> ${event.location}</span>
+                            <span class="event-organizer"><i class="fas fa-users"></i> ${event.organizer}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            const calendarDays = document.getElementById('calendarDays');
+            calendarDays.innerHTML = '';
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day', 'empty');
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('calendar-day');
+                dayElement.textContent = day;
+                
+                // Check if this day has an event
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (events[dateString]) {
+                    const event = events[dateString];
+                    if (activeCategory === 'all' || event.category === activeCategory) {
+                        dayElement.classList.add('has-event');
+                        dayElement.style.setProperty('--event-color', categoryColors[event.category]);
+                        dayElement.title = `${event.title} (${event.category.toUpperCase()})`;
+                    }
+                }
+                
+                // Highlight today
+                if (day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+                
+                calendarDays.appendChild(dayElement);
+            }
+            
+            updateEventsList(month, year);
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                // Update active category
+                activeCategory = btn.dataset.category;
+                // Regenerate calendar with new filter
+                generateCalendar(currentMonth, currentYear);
+            });
+        });
+
+        // Navigation event listeners
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        // Initialize calendar
+        generateCalendar(currentMonth, currentYear);
+    </script>
 
 </body>
 </html>
