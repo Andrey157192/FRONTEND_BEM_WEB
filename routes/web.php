@@ -14,3 +14,11 @@ Route::get('/login', function () {
 Route::get('/home', function () {
     return view('home.home');
 });
+
+Route::get('/delpro', function () {
+    return view('home.organisasi.delpro');
+});
+
+Route::get('/ptm', function () {
+    return view('home.organisasi.ptm');
+});

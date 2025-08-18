@@ -45,8 +45,8 @@
                         <div class="dropdown-section">
                             <h4 class="dropdown-header">UKM</h4>
                             <div class="dropdown-items">
-                                <a href="{{ url('/organisasi/ukm/delpro') }}" class="dropdown-item">DELPRO</a>
-                                <a href="{{ url('/organisasi/ukm/ptm') }}" class="dropdown-item">PTM</a>
+                                <a href="{{ url('/delpro') }}" class="dropdown-item">DELPRO</a>
+                                <a href="{{ url('/ptm') }}" class="dropdown-item">PTM</a>
                             </div>
                         </div>
                         <div class="dropdown-section">
