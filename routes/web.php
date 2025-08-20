@@ -22,3 +22,6 @@ Route::get('/delpro', function () {
 Route::get('/ptm', function () {
     return view('home.organisasi.ptm');
 });
+Route::get('/dokumentasi', function () {
+    return view('guess.dokumentasi.dokumentasi');
+});
