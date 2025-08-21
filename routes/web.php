@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/s', function () {
     return view('guess.guess');
 });
 
@@ -15,8 +15,8 @@ Route::get('/home', function () {
     return view('home.home');
 });
 
-Route::get('/test', function(){
-    return view('login.test');
+Route::get('/organisasi', function(){
+    return view('organisasi');
 });
 Route::get('/kalender', function(){
     return view('kalender.kalender');
@@ -24,6 +24,6 @@ Route::get('/kalender', function(){
 Route::get('/kalenderai', function(){
     return view('kalender.kalender-optimized');
 });
-Route::get('/beranda', function(){
+Route::get('/', function(){
     return view('beranda');
 });

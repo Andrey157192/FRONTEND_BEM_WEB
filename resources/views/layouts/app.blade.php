@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEM IT Del - Beranda</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-     <!-- @vite('resources/css/app.css') -->
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-        /* Animasi untuk marquee organisasi */
-        .marquee-content {
-            animation: marquee 40s linear infinite;
-        }
-        .marquee-content-reverse {
-            animation: marquee-reverse 40s linear infinite;
-        }
-        .marquee-container:hover .marquee-content,
-        .marquee-container:hover .marquee-content-reverse {
-            animation-play-state: paused;
-        }
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-        @keyframes marquee-reverse {
-            from { transform: translateX(-50%); }
-            to { transform: translateX(0); }
-        }
-    </style>
-</head>
-<body class="bg-brand-light text-text-dark" x-data="{ isMobileMenuOpen: false }" :class="{ 'overflow-hidden': isMobileMenuOpen }">
-    <!-- Konten halaman akan dimuat di sini -->
-    @yield('content')
+    <title>BEM Institut Teknologi Del | Kabinet #SahatMarsada</title>
 
+    <!-- CDN Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    {{-- PERBAIKAN: Menghapus "path:" --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+</head>
+<body class="bg-white">
+
+    {{-- PERBAIKAN: Menghapus "view:" --}}
+    @include('layouts.partials.navbar')
+
+    <main>
+        {{-- PERBAIKAN: Menghapus "section:" --}}
+        @yield('content')
+    </main>
+
+    {{-- PERBAIKAN: Menghapus "view:" --}}
+    @include('layouts.partials.footer')
+
+    <!-- Scripts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Custom JS -->
+    {{-- PERBAIKAN: Menghapus "path:" --}}
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
+{{-- PERBAIKAN: Menghapus @yield ganda dari sini --}}
 </html>
