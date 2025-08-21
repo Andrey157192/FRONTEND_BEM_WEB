@@ -857,6 +857,39 @@
         .org-arrow.right {
             right: 0.5rem;
         }
+
+        .hero-image {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 80px 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Added hero image animation */
+            animation: fadeInRight 1s ease-out 0.6s both;
+            transition: all 0.3s ease;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-image-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1e40af;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 24px 32px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            /* Added title animation */
+            animation: scaleIn 0.8s ease-out 1.2s both;
+        }
     </style>
 </head>
 
@@ -874,7 +907,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#beranda">
-                <img src="https://bem.del.ac.id/wp-content/uploads/2022/03/cropped-logo-bem-1-192x192.png" alt="Logo"
+                <img src="assets/logo.png" alt="Logo"
                     width="40" height="40" class="rounded-circle me-2">
                 BEM IT DEL <small class="text-muted ms-1 d-none d-sm-inline">#SahatMarsada</small>
             </a>
@@ -982,10 +1015,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center" data-aos="fade-left">
+                <div class="col-lg-4 text-center hero-image" data-aos="fade-left">
                     <div class="hero-logo">
-                        <img src="https://bem.del.ac.id/wp-content/uploads/2022/03/cropped-logo-bem-1-192x192.png"
-                            alt="Logo BEM IT DEL" class="img-fluid">
+                        <img src="assets/logo.png" alt="Logo BEM IT DEL" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -1085,6 +1117,7 @@
                 <h2 class="display-5 fw-bold text-gradient mb-4">Agenda BEM IT DEL</h2>
             </div>
             <div class="row g-4">
+                <!-- Agenda Mendatang -->
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="card card-custom p-4">
                         <h4 class="fw-bold mb-4">Agenda Mendatang</h4>
@@ -1120,31 +1153,25 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Kalender Kegiatan -->
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="card card-custom p-4">
-                        <h4 class="fw-bold mb-4">Kalender Kegiatan</h4>
-                        <div class="text-center">
-                            <h5 class="text-primary mb-3" id="calendar-title"></h5>
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr class="text-muted">
-                                            <th>Min</th>
-                                            <th>Sen</th>
-                                            <th>Sel</th>
-                                            <th>Rab</th>
-                                            <th>Kam</th>
-                                            <th>Jum</th>
-                                            <th>Sab</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="calendar-body">
-                                        <!-- Calendar akan diisi dengan JavaScript -->
-                                    </tbody>
-                                </table>
+                        <h4 class="fw-bold mb-3">Kalender Kegiatan</h4>
+                        <div class="text-center mb-3">
+                            <h5 id="calendar-title" class="text-primary"></h5>
+                            <div class="btn-group mb-3">
+                                <button class="btn btn-sm btn-outline-primary" onclick="changeView('day')">Hari</button>
+                                <button class="btn btn-sm btn-outline-primary"
+                                    onclick="changeView('week')">Minggu</button>
+                                <button class="btn btn-sm btn-outline-primary"
+                                    onclick="changeView('month')">Bulan</button>
+                                <button class="btn btn-sm btn-outline-primary"
+                                    onclick="changeView('year')">Tahun</button>
                             </div>
-                            <div class="small text-muted mt-3" id="current-time"></div>
                         </div>
+                        <div id="calendar-container" class="table-responsive"></div>
+                        <div class="small text-muted mt-3" id="current-time"></div>
                     </div>
                 </div>
             </div>
@@ -1464,49 +1491,7 @@
         });
 
         // Kalender Kegiatan (Agustus 2025)
-        function renderCalendar() {
-            const calendarTitle = document.getElementById('calendar-title');
-            const calendarBody = document.getElementById('calendar-body');
-            const currentTime = document.getElementById('current-time');
-            const month = 7; // Agustus (0-indexed)
-            const year = 2025;
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const firstDay = new Date(year, month, 1).getDay();
-            calendarTitle.textContent = 'Agustus 2025';
-            calendarBody.innerHTML = '';
-            let date = 1;
-            for (let i = 0; i < 6; i++) {
-                let row = document.createElement('tr');
-                for (let j = 0; j < 7; j++) {
-                    let cell = document.createElement('td');
-                    if (i === 0 && j < firstDay) {
-                        cell.innerHTML = '';
-                    } else if (date > daysInMonth) {
-                        cell.innerHTML = '';
-                    } else {
-                        cell.innerHTML = date;
-                        // Highlight agenda dates
-                        if ([15, 22, 29].includes(date)) {
-                            cell.classList.add('bg-primary', 'text-white', 'fw-bold');
-                        }
-                        // Highlight today
-                        const today = new Date();
-                        if (date === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                            cell.classList.add('bg-info', 'text-white', 'fw-bold');
-                        }
-                        date++;
-                    }
-                    row.appendChild(cell);
-                }
-                calendarBody.appendChild(row);
-                if (date > daysInMonth) break;
-            }
-            // Real-time clock
-            setInterval(() => {
-                currentTime.textContent = moment().format('dddd, DD MMMM YYYY - HH:mm:ss');
-            }, 1000);
-        }
-        renderCalendar();
+
     </script>
     <script>
         // Carousel Organisasi dua arah otomatis
@@ -1541,6 +1526,96 @@
         setInterval(nextOrg, 2500);
         window.addEventListener('resize', updateCarousel);
         updateCarousel();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script>
+        let currentView = "month";
+
+        function renderCalendar() {
+            const container = document.getElementById("calendar-container");
+            const title = document.getElementById("calendar-title");
+            const now = new Date();
+            container.innerHTML = "";
+
+            if (currentView === "day") {
+                title.textContent = moment(now).format("dddd, DD MMMM YYYY");
+                container.innerHTML = `<p class="fw-bold">Agenda Hari Ini</p>`;
+            }
+
+            if (currentView === "week") {
+                title.textContent = "Minggu ke-" + moment(now).week() + " " + now.getFullYear();
+                let table = `<table class="table table-sm"><thead><tr>`;
+                ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"].forEach(d => table += `<th>${d}</th>`);
+                table += "</tr></thead><tbody><tr>";
+                for (let i = 0; i < 7; i++) {
+                    let day = moment(now).startOf("week").add(i, "days");
+                    table += `<td>${day.date()}</td>`;
+                }
+                table += "</tr></tbody></table>";
+                container.innerHTML = table;
+            }
+
+            if (currentView === "month") {
+                const month = now.getMonth();
+                const year = now.getFullYear();
+                title.textContent = moment(now).format("MMMM YYYY");
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const firstDay = new Date(year, month, 1).getDay();
+
+                let table = `<table class="table table-sm"><thead><tr>`;
+                ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"].forEach(d => table += `<th>${d}</th>`);
+                table += "</tr></thead><tbody>";
+
+                let date = 1;
+                for (let i = 0; i < 6; i++) {
+                    table += "<tr>";
+                    for (let j = 0; j < 7; j++) {
+                        if (i === 0 && j < firstDay) {
+                            table += "<td></td>";
+                        } else if (date > daysInMonth) {
+                            table += "<td></td>";
+                        } else {
+                            let classes = "";
+                            if ([15, 22, 29].includes(date)) classes = "bg-primary text-white fw-bold";
+                            if (date === now.getDate()) classes = "bg-info text-white fw-bold";
+                            table += `<td class="${classes}">${date}</td>`;
+                            date++;
+                        }
+                    }
+                    table += "</tr>";
+                    if (date > daysInMonth) break;
+                }
+                table += "</tbody></table>";
+                container.innerHTML = table;
+            }
+
+            if (currentView === "year") {
+                title.textContent = now.getFullYear();
+                let table = `<div class="row">`;
+                for (let m = 0; m < 12; m++) {
+                    table += `<div class="col-6 col-md-4 mb-3"><div class="border p-2 rounded"><h6 class="text-primary text-center">${moment().month(m).format("MMMM")}</h6>`;
+                    const days = new Date(now.getFullYear(), m + 1, 0).getDate();
+                    table += "<div class='d-flex flex-wrap'>";
+                    for (let d = 1; d <= days; d++) {
+                        table += `<span class="small px-1">${d}</span>`;
+                    }
+                    table += "</div></div></div>";
+                }
+                table += "</div>";
+                container.innerHTML = table;
+            }
+        }
+
+        function changeView(view) {
+            currentView = view;
+            renderCalendar();
+        }
+
+        setInterval(() => {
+            document.getElementById("current-time").textContent = moment().format("dddd, DD MMMM YYYY - HH:mm:ss");
+        }, 1000);
+
+        renderCalendar();
     </script>
 </body>
 

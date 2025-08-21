@@ -21,3 +21,9 @@ Route::get('/test', function(){
 Route::get('/kalender', function(){
     return view('kalender.kalender');
 });
+Route::get('/kalenderai', function(){
+    return view('kalender.kalender-optimized');
+});
+Route::get('/beranda', function(){
+    return view('beranda');
+});
