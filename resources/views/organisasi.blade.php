@@ -32,7 +32,7 @@
                             <h5 class="card-title fw-bold mt-3">HIMASTI</h5>
                             <p class="text-del-primary-blue small fw-semibold">Himpunan Mahasiswa S1 Informatika</p>
                             <p class="card-text text-muted small">Mengembangkan kemampuan mahasiswa di bidang rekayasa perangkat lunak dan teknologi informasi.</p>
-                            <a href="#" class="btn btn-gradient text-white rounded-pill px-4 mt-3">Lihat Detail</a>
+                            <a href="/detail-organisasi" class="btn btn-gradient text-white rounded-pill px-4 mt-3">Lihat Detail</a>
                         </div>
                     </div>
                 </div>

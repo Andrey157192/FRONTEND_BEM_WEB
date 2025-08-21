@@ -36,6 +36,7 @@
     <!-- Custom JS -->
     {{-- PERBAIKAN: Menghapus "path:" --}}
     <script src="{{ asset('js/app.js') }}"></script>
+    <!-- @stack('scripts') -->
 </body>
 {{-- PERBAIKAN: Menghapus @yield ganda dari sini --}}
 </html>
