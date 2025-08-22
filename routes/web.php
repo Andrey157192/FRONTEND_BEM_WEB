@@ -25,3 +25,7 @@ Route::get('/ptm', function () {
 Route::get('/dokumentasi', function () {
     return view('guess.dokumentasi.dokumentasi');
 });
+
+Route::get('/pengguguman', function () {
+    return view('pengguguman.pengguguman');
+});
